@@ -71,6 +71,8 @@ export const AppointmentForm = ({
     }
 
     try {
+      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone; // Dynamically get the user's time zone
+
       if (type === "create" && patientId) {
         const appointment = {
           userId,
@@ -101,6 +103,7 @@ export const AppointmentForm = ({
             cancellationReason: values.cancellationReason,
           },
           type,
+          timeZone, // Add the timeZone here
         };
 
         const updatedAppointment = await updateAppointment(appointmentToUpdate);
@@ -125,7 +128,7 @@ export const AppointmentForm = ({
       buttonLabel = "Schedule Appointment";
       break;
     default:
-      buttonLabel = "Submit Apppointment";
+      buttonLabel = "Submit Appointment";
   }
 
   return (
@@ -182,7 +185,7 @@ export const AppointmentForm = ({
                 control={form.control}
                 name="reason"
                 label="Appointment reason"
-                placeholder="Annual montly check-up"
+                placeholder="Annual monthly check-up"
                 disabled={type === "schedule"}
               />
 
